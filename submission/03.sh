@@ -6,5 +6,5 @@ TX="02000000000104b5f641e80e9065f09b12f3e373072518885d1bd1ddd9298e5b9840de515eda
 # 2. Decode the transaction and extract the public keys
 PUBKEYS=$(bitcoin-cli -regtest decoderawtransaction "$TX" | jq -c '[.vin[].txinwitness[1]]')
 
-# 3. Create the 1-of-4 multisig address
-bitcoin-cli -regtest createmultisig 1 "$PUBKEYS" "legacy"
+# 3. Create the 1-of-4 multisig address and extract ONLY the address string
+bitcoin-cli -regtest createmultisig 1 "$PUBKEYS" "legacy" | jq -r '.address'
